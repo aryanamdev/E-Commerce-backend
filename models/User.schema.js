@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const { authRoles } = require("../utils/authRoles");
 const bcrypt = require("bcrypt");
 const JWT = require("jsonwebtoken");
+// to generate a log string
 const crypto = require("crypto");
 const config = require("../config/index.js");
 
@@ -41,7 +42,7 @@ const UserSchema = new mongoose.Schema(
 
 // Encrypt password
 UserSchema.pre("save", async function (next) {
-  if (!this.modified("password")) return next();
+  if (!this.isModified("password")) return next();
   this.password = await bcrypt.hash(this.password, 10);
   next();
 });
@@ -68,6 +69,23 @@ UserSchema.methods = {
         expiresIn: JWT_EXPIRY,
       }
     );
+  },
+
+  // generate a long string
+  generateForgotPasswordToken: function () {
+    const forgotToken = crypto.randomBytes(64).toString("hex");
+
+    // Step 1: Save to DB
+    this.forgotPasswordToken = crypto
+      .createHash("sha256")
+      .update(forgotToken)
+      .digest("hex");
+
+    this.forgotPasswordExpiry = Date.now() + 20 + 60 * 1000;
+
+    return forgotToken;
+    // Step 2: Return Values to User
+    // Step 3:
   },
 };
 
