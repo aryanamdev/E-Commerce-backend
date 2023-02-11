@@ -1,5 +1,7 @@
 require(dotenv).config();
 const express = require("express");
 
+// importing PORT
 const { PORT } = process.env;
-console.log(PORT);
+
+export const app = express();
