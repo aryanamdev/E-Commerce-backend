@@ -1,7 +1,21 @@
 require(dotenv).config();
 const express = require("express");
 
-// importing PORT
-const { PORT } = process.env;
+import cors from "cors";
+import cookieParser from "cookie-parser";
+import morgan from "morgan";
 
+const { PORT } = process.env;
 export const app = express();
+
+// middlewares
+app.use(express.json());
+app.use(cors());
+app.use(
+  express.urlencoded({
+    extended: true,
+  })
+);
+app.use(cookieParser());
+
+app.use(morgan("tiny"));
