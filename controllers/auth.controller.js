@@ -108,3 +108,12 @@ export const logout = asyncHandler(async (req, res) => {
     message: "Logged out",
   });
 });
+
+/***********************************
+@FORGOTPASSWORD
+
+@route http://localhost:4000/api/auth/logout
+@description User logout by clearing user cookies
+@parameters email password
+@return User Object()
+***********************************/
