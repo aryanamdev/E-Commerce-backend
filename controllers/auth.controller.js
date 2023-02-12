@@ -211,3 +211,24 @@ export const resetPassword = asyncHandler(async (req, res) => {
 });
 
 // Todo: Create a controller for change password
+
+/***********************************
+@GET_PROFILE
+
+@route http://localhost:4000/api/auth/profile
+@description check for token and populate req.user
+@parameters 
+@return User Object()
+***********************************/
+
+export const getProfile = asyncHandler(async (req, res, next) => {
+  const { user } = req;
+
+  if (!user) {
+    throw new customError("User not found", 404);
+  }
+  res.status(200).json({
+    success: true,
+    user,
+  });
+});
