@@ -16,6 +16,8 @@ export const deleteFile = async ({ bucketName, key }) => {
     .deleteBucket({
       Bucket: bucketName,
       Key: key,
+      Body: body,
+      ContentType: contentType,
     })
     .promise();
 };
